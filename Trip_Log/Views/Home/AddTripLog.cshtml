@@ -1,0 +1,167 @@
+﻿
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".form-section").hide();
+        $("#section1").show();
+
+        $(".next-button").click(function (event) {
+            event.preventDefault();
+            var currentSection = parseInt($(this).attr("data-section"));
+
+            $("#section" + currentSection).hide();
+
+            var nextSection = currentSection + 1;
+            $("#section" + nextSection).show();
+        });
+
+        $(function () {
+            $("#SDate, #EDate").datepicker();
+        });
+
+        $("#submit-button").click(function () {
+            var formData = {
+                Destinations: $("#destination").val(),
+                Accommodations: $("#accommodation").val(),
+                SDate: $("#SDate").val(),
+                EDate: $("#EDate").val(),
+                PNumber: $("#PNumber").val(),
+                EAddress: $("#EAddress").val(),
+                Thing1: $("#Thing1").val(),
+                Thing2: $("#Thing2").val(),
+                Thing3: $("#Thing3").val()
+            };
+
+            $.ajax({
+                url: "@Url.Action("PostData", "Home")",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    console.log("Form data posted successfully:", response);
+                },
+                error: function (error) {
+                    console.error("Error posting form data:", error);
+                }
+            });
+        });
+
+
+        $(".cancel-button").click(function () {
+            event.preventDefault();
+            window.location.href = "/Home/Index";
+        });
+    });
+</script>
+
+
+<div id="myFormContainer">
+    @using (Html.BeginForm("PostData", "Home", FormMethod.Post))
+    {
+
+        <div id="section1" class="form-section">
+
+            <label style="font-size:23px; font-weight:600">Add Trip And Destination</label>
+
+            <div class="form-group">
+                <select id="destination" class="form-select">
+                    <option value="">All Sales</option>
+                    @foreach (var dest in ViewBag.destinations)
+                    {
+                        <option value="@dest.DestinationId">@dest.DestinationName</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select id="accommodation" class="form-select">
+                    <option value="">Select Accommodation</option>
+                    @foreach (var accommodation in ViewBag.accommodations)
+                    {
+                        <option value="@accommodation.AccommodationId">@accommodation.AccommodationName</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="SDate">Start Date:</label>
+                <input type="text" id="SDate" name="SDate" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="EDate">End Date:</label>
+                <input type="text" id="EDate" name="EDate" class="form-control">
+            </div>
+
+
+            <button class="btn btn-primary next-button" data-section="1">Next</button>
+            <button class="btn btn-secondary cancel-button" data-section="1">Cancel</button>
+        </div>
+
+
+        <div id="section2" class="form-section">
+            <label style="font-size:23px; font-weight:600">Add Info For Ritz</label>
+
+            <div class="form-group">
+                <label for="PNumber">Phone Number:</label>
+                <input type="text" id="PNumber" name="PNumber" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="EAddress">Email Address:</label>
+                <input type="text" id="EAddress" name="EAddress" class="form-control">
+            </div>
+
+            <button class="btn btn-primary next-button" data-section="2">Next</button>
+            <button class="btn btn-secondary cancel-button" data-section="2">Cancel</button>
+        </div>
+
+
+        <div id="section3" class="form-section">
+            <div class="form-group">
+                <label style="font-size:23px; font-weight:600">Add Things To Do</label>
+                
+                <div class="form-group">
+                    <select id="Thing1" class="form-select">
+                        <option value="">Select Activity</option>
+                        @foreach (var accommodation in ViewBag.activities)
+                        {
+                            <option value="@accommodation.ActivityId">@accommodation.ActivityName</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="Thing2" class="form-select">
+                        <option value="">Select Activity</option>
+                        @foreach (var accommodation in ViewBag.activities)
+                        {
+                            <option value="@accommodation.ActivityId">@accommodation.ActivityName</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="Thing3" class="form-select">
+                        <option value="">Select Activity</option>
+                        @foreach (var accommodation in ViewBag.activities)
+                        {
+                            <option value="@accommodation.ActivityId">@accommodation.ActivityName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <button id="submit-button" type="submit" class="btn btn-success" data-section="3">Submit</button>
+            <button class="btn btn-secondary cancel-button" data-section="3">Cancel</button>
+        </div>
+
+    }
+</div>

@@ -1,0 +1,222 @@
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 20px;
+    }
+
+    th {
+        background-color: #f2f2f2; 
+        border-radius: 8px 8px 0 0;
+    }
+
+    td, th {
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    input {
+        width: calc(100% - 20px); 
+        margin-bottom: 10px;
+    }
+
+    .tableView {
+        max-height: 200px; 
+        overflow-y: auto; 
+    }
+    
+        .tableView table {
+            border-radius: 8px;
+        }
+
+</style>
+
+
+<table style="border-radius:20px">
+    <tbody>
+        <tr>
+            <td>
+                <form>
+                    <label class="col-form-label-lg">Add Destination</label>
+                    <input type="text" id="dstntn" class="form-control" placeholder="Enter Activity">
+                    <button id="dstBtn" class="btn btn-outline-primary">Add Destination</button>
+                </form>
+            </td>
+      
+            <td>
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>Activity Id</th>
+                            <th>Activity Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach (var activity in ViewBag.destination)
+                            {
+                            <tr>
+                                <td>@activity.DestinationId</td>
+                                <td>@activity.DestinationName</td>
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </td>
+
+         
+        </tr>
+        <!-- Second row -->
+        <tr>
+            <td>
+                <form>
+                    <label class="col-form-label-lg">Add Activity</label>
+                    <input type="text" id="activity" class="form-control" placeholder="Enter Activity">
+                    <button id="actBtn" class="btn btn-outline-primary">Add Activity</button>
+                </form>
+            </td>
+         
+           
+            <td>
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>Activity Id</th>
+                            <th>Activity Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach (var activity in ViewBag.activities)
+                            {
+                            <tr>
+                                <td>@activity.ActivityId</td>
+                                <td>@activity.ActivityName</td>
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </td>
+
+            
+        </tr>
+        <!-- Third row -->
+        <tr>
+            <td>
+                <form>
+                    <label class="col-form-label-lg">Add Activity</label>
+                    <input type="text" id="acmName" class="form-control" placeholder="Enter Accommodation Name">
+                    <input type="text" id="acmPhone" class="form-control" placeholder="Enter Accommodation Phone">
+                    <input type="text" id="acmEmail" class="form-control" placeholder="Enter Accommodation Email">
+                    <button id="acmdBtn" class="btn btn-outline-primary">Add Accommodation</button>
+                </form>
+            </td>
+            <!-- Second column with table view -->
+            <td>
+                <table class="class=" table table-dark"">
+                    <thead>
+                        <tr>
+                            <th>Accommodation Id</th>
+                            <th>Accommodation Name</th>
+                            <th>Accommodation Phone</th>
+                            <th>Accommodation Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var activity in ViewBag.accomodation)
+                        {
+                            <tr>
+                                <td>@activity.AccommodationId</td>
+                                <td>@activity.AccommodationName</td>
+                                <td>@activity.AccommodationPhone</td>
+                                <td>@activity.AccommodationEmail</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+ <script>
+    $(document).ready(function () {
+        $("#actBtn").click(function () {
+            var activityName = $("#activity").val();
+            console.log(activityName);
+
+            $.ajax({
+                url: "@Url.Action("AddActivity", "Home")",
+                type: "POST",
+                data: { activityName: activityName },
+                success: function (response) {
+                    console.log(response, "Activity added successfully.");
+
+                    toastr.success("Activity added successfully.");
+                },
+                error: function (error) {
+                    console.error("Error adding activity:", error);
+                    toastr.error("An error occurred while adding the activity.");
+                }
+            });
+        });
+
+
+        $("#dstBtn").click(function () {
+            var destinationName = $("#dstntn").val();
+            console.log(destinationName);
+
+            $.ajax({
+                url: "@Url.Action("AddDestination", "Home")",
+                type: "POST",
+                data: { destinationName: destinationName },
+                success: function (response) {
+                    console.log(response, "Destination added successfully.");
+                    toastr.success("Destination added successfully.");
+                },
+                error: function (error) {
+                    console.error("Error adding destination:", error);
+                    toastr.error("An error occurred while adding the destination.");
+                }
+            });
+
+        });
+
+
+        $("#acmdBtn").click(function (event) {
+            event.preventDefault();
+
+            var formData = {
+                accommodationName: $("#acmName").val(),
+                accommodationPhone: $("#acmPhone").val(),
+                accommodationEmail: $("#acmEmail").val()
+            };
+
+            console.log(formData);
+
+            $.ajax({
+                url: "@Url.Action("AddAccommodation", "Home")",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    console.log(response, "Accommodation added successfully.");
+                    toastr.success("Accommodation added successfully.");
+                },
+                error: function (error) {
+                    console.error("Error adding accommodation:", error);
+                    toastr.error("An error occurred while adding Accommodation.");
+                }
+            });
+        });
+
+
+    });
+
+
+
+
+
+ </script>

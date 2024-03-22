@@ -1,0 +1,82 @@
+﻿@model List<DataAccessLayer.ViewModel.vmTripLog>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>@Html.Raw(TempData["Message"])</div>
+
+
+<div>
+    <a href="@Url.Action("AddTripLog", "Home")" style="font-weight: 600; text-decoration: none; font-weight: bold; color: #1788e0;">Add Trip</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Destination</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Accommodation</th>
+            <th scope="col">Things To Do</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tripLog in Model)
+        {
+            <tr>
+                <td>@tripLog.DestinationName</td>
+                <td>@tripLog.StartDate</td>
+                <td>@tripLog.EndDate</td>
+                <td>@tripLog.AccommodationName</td>
+                <td>
+                    <ul>
+                        <li>@tripLog.ThingToDo1</li>
+                        <li>@tripLog.ThingToDo2</li>
+                        <li>@tripLog.ThingToDo3</li>
+                    </ul>
+                </td>
+                <td style="display: none;" id="tdExtras">@tripLog.TripId</td>
+                <td>
+                    <button class="delete-button" data-tripid="@tripLog.TripId"
+                            style="background-color: #ff0000; color: #ffffff; border: none; padding: 5px 10px; border-radius: 4px;">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script>
+    $(document).ready(function () {
+        $(".delete-button").click(function () {
+            var deleteButton = $(this); 
+
+            var tripId = deleteButton.closest('tr').find('#tdExtras').text();
+
+            $.ajax({
+                url: "@Url.Action("DeleteData", "Home")",
+                type: "POST",
+                data: { tripId: tripId },
+                success: function (response) {
+                    console.log(response, "Trip deleted successfully.");
+
+                    toastr.success("Trip deleted successfully");
+                    deleteButton.closest("tr").remove(); 
+                },
+                error: function (error) {
+                    console.error("Error deleting trip:", error);
+                    toastr.error("An error occurred while deleting the trip");
+                }
+            });
+        });
+    });
+</script>
+
+

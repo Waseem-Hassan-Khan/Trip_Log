@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trip_Log", "Trip_Log\Trip_Log.csproj", "{ECF6FA9C-A7F9-495C-807C-1B139EFB7D25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{0C594498-03AA-40EA-8C86-998A2E635779}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECF6FA9C-A7F9-495C-807C-1B139EFB7D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF6FA9C-A7F9-495C-807C-1B139EFB7D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF6FA9C-A7F9-495C-807C-1B139EFB7D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF6FA9C-A7F9-495C-807C-1B139EFB7D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C594498-03AA-40EA-8C86-998A2E635779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C594498-03AA-40EA-8C86-998A2E635779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C594498-03AA-40EA-8C86-998A2E635779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C594498-03AA-40EA-8C86-998A2E635779}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1224800C-8442-4871-9499-FF1B14C3C89E}
+	EndGlobalSection
+EndGlobal
